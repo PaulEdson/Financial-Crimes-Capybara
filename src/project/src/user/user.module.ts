@@ -10,7 +10,7 @@ import { User } from './entities/user.entity';
   controllers: [UserController],
   providers: [UserService],
 
-  // will need to add FormAccessModule and AuthgroupModule to imports later
-  // will need to add FormAccessService and AuthgroupService to providers later
+  // will need to add FormAccessModule and AuthGroupModule to imports later
+  // will need to add FormAccessService and AuthGroupService to providers later
 })
 export class UserModule {}

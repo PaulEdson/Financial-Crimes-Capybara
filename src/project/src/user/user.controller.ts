@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode } from '@ne
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { User } from './entities/user.entity';
 
 @Controller('user')
 export class UserController {
@@ -15,14 +16,14 @@ export class UserController {
 
   @Get()
   @HttpCode(200)
-  findAllUsers() {
+  findAllUsers(): Promise<User[]> {
     return this.userService.findAllUsers();
   }
 
   @Get(':id')
   @HttpCode(200)
-  findUserById(@Param('id') id: number) {
-    return this.userService.findUserById(+id);
+  findUserById(@Param('id') requestedId: number) {
+    return this.userService.findUserById(+requestedId);
   }
 
   @Patch('/update/:id')
