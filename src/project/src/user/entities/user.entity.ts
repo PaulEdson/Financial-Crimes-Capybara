@@ -1,4 +1,5 @@
-import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Authgroup } from "src/authgroup/authgroup";
+import { Column, Entity, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class User {
@@ -11,7 +12,10 @@ export class User {
     @Column()
     password: string;
 
-    // @ManyToMany()
-    // @JoinTable()
-    // forms: Form[];
+    // @OneToMany()
+    // formAccess: FormAccess[];
+
+    // @ManyToOne()
+    // authGroup: AuthGroup;
+
 }
