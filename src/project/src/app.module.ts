@@ -6,16 +6,20 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
 //module imports
-import { UserModule } from './user/user.module';
+
 import { AuthgroupModule } from './authgroup/authgroup.module';
 import { FormModule } from './form/form.module';
 import { UserModule } from './user/user.module';
+import { User } from './user/entities/user.entity';
 
 //imports for authorizations
 import {Authorization} from './authorization/entities/authorization.entity';
 import {AuthorizationService} from './authorization/authorization.service';
 import {AuthorizationController} from './authorization/authorization.controller';
 import {AuthorizationModule} from './authorization/authorization.module';
+import { AuthModule } from './auth/auth.module';
+import {UserController} from './user/user.controller';
+import {UserService} from './user/user.service';
 
 @Module({
   imports: [UserModule, AuthgroupModule, FormModule,AuthorizationModule,
@@ -26,10 +30,12 @@ import {AuthorizationModule} from './authorization/authorization.module';
          username: 'postgres',
          password: 'potatoParty',
          database: 'practice',
-         entities: [Authorization],
+         entities: [Authorization,User],
          synchronize: true
-  })],
-  controllers: [AppController],
-  providers: [AppService],
+  }),
+  AuthModule,
+  UserModule],
+  controllers: [AppController,UserController],
+  providers: [AppService,UserService],
 })
 export class AppModule {}

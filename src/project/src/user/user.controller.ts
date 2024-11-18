@@ -8,6 +8,19 @@ import { User } from './entities/user.entity';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
+  /*
+   * creates several dummy users for testing
+   * that the api is working properlly, there is probably
+   * a better way to do this but here we are :)
+   *
+   * */
+  @Post('/test')
+  async testUsers() {
+     await this.userService.createUser(new CreateUserDto('john','john'));
+     await this.userService.createUser(new CreateUserDto('alice','alice'));
+     await this.userService.createUser(new CreateUserDto('bob','bob'));
+  }
+
   @Post('/create')
   @HttpCode(201)
   createUser(@Body() createUserDto: CreateUserDto) {
@@ -37,4 +50,5 @@ export class UserController {
   removeUser(@Param('id') id: number) {
     return this.userService.removeUser(+id);
   }
+
 }
