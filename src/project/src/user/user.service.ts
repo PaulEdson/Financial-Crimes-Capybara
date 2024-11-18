@@ -9,13 +9,13 @@ import { AuthService } from 'src/auth/auth.service';
 @Injectable()
 export class UserService {
   // need to add FormAccess repo and AuthGroup repo later
-  constructor(@InjectRepository(User) private repo: Repository<User>,private authService : AuthService) {}
+  constructor(@InjectRepository(User) private repo: Repository<User>) {}
 
   async createUser(createUserDto: CreateUserDto) {
      let toCreate : User = new User();
      try {
          toCreate.username = createUserDto.username;
-         toCreate.password = await this.authService.hashPassword(createUserDto.plainTextPassword);
+         toCreate.password = await AuthService.hashPassword(createUserDto.plainTextPassword);
          await this.repo.save([toCreate]); //will crash if username is not unique
      } catch (e) {
          //TODO: catch the error bro
@@ -86,7 +86,7 @@ export class UserService {
    async updateUserPassword(username : string,password : string) {
       try {
          let user : User = await this.findUserByUsername(username)
-         user.password = await this.authService.hashPassword(password);
+         user.password = await AuthService.hashPassword(password);
          await this.repo.save([user]);
       }
       catch (e) {

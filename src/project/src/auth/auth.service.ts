@@ -12,7 +12,7 @@ export class AuthService {
    /*
     * takes a password and returns the hashed version of that password for safe storage
    * */
-   async hashPassword(plainTextPassword : String) : Promise<string> {
+   static async hashPassword(plainTextPassword : String) : Promise<string> {
       //crypto-fy that password!
       try {
          let salt : string = await genSalt();
