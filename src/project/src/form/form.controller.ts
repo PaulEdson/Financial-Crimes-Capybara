@@ -4,13 +4,14 @@ import { CreateFormDto } from './dto/create-form.dto';
 import { UpdateFormDto } from './dto/update-form.dto';
 import { Form } from './form';
 
+//controller for form table/entity
 @Controller('form')
 export class FormController {
   constructor(private readonly formService: FormService) {}
 
   @Post()
-  create(@Body() createFormDto: CreateFormDto) {
-    return this.formService.create(createFormDto);
+  create(@Body() createForm: Form) {
+    return this.formService.create(createForm);
   }
 
   @Get('/GetAll')
@@ -19,12 +20,12 @@ export class FormController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.formService.findOne(+id);
+  findOne(@Param('id') id: number): Promise<Form> {
+    return this.formService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateFormDto: UpdateFormDto) {
+  update(@Param('id') id: string, @Body() updateFormDto: Form) {
     return this.formService.update(+id, updateFormDto);
   }
 

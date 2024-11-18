@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateFormDto } from './dto/create-form.dto';
 import { UpdateFormDto } from './dto/update-form.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -8,23 +8,37 @@ import { Repository } from 'typeorm';
 @Injectable()
 export class FormService {
   constructor(@InjectRepository(Form) private repo: Repository<Form>){}
-  create(createFormDto: CreateFormDto) {
-    return 'This action adds a new form';
+
+  async create(createFormDto: Form): Promise<Form> {
+    await this.repo.exists({where:{FormId: createFormDto.FormId}}).then(exists => {
+      if (exists){
+        throw new HttpException(`Form ID ${createFormDto.FormId} already exists`, HttpStatus.BAD_REQUEST)
+      }
+    })
+    return await this.repo.save(createFormDto);
   }
 
   async findAll(): Promise<Form[]> {
     return await this.repo.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} form`;
+  async findOne(id: number) {
+    return await this.repo.findOneOrFail({where:{FormId:id}});
   }
 
-  update(id: number, updateFormDto: UpdateFormDto) {
-    return `This action updates a #${id} form`;
+  async update(id: number, updateFormDto: Form) {
+    if (id != updateFormDto.FormId){
+      throw new HttpException(`route id ${id} and body id ${updateFormDto.FormId} do not match`, HttpStatus.BAD_REQUEST)
+    }
+    await this.repo.exists({where:{FormId: updateFormDto.FormId}}).then(exists => {
+      if (!exists){
+        throw new HttpException(`Form ID ${updateFormDto.FormId} does not exists`, HttpStatus.BAD_REQUEST)
+      }
+    })
+    return await this.repo.save(updateFormDto);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} form`;
+  async remove(id: number) {
+    return await this.repo.delete(id);
   }
 }
