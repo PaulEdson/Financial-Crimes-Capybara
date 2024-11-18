@@ -9,6 +9,7 @@ import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
 import { AuthgroupModule } from './authgroup/authgroup.module';
 import { FormModule } from './form/form.module';
+import { UserModule } from './user/user.module';
 
 //imports for authorizations
 import {Authorization} from './authorization/entities/authorization.entity';
