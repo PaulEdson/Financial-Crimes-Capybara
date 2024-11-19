@@ -23,11 +23,18 @@ import { AuthgroupController } from './authgroup/authgroup.controller';
 import { UserService } from './user/user.service';
 import { AuthgroupService } from './authgroup/authgroup.service';
 import { AuthorizationService } from './authorization/authorization.service';
+import {JwtModule} from '@nestjs/jwt';
+import {jwtConstants} from './auth/config';
 
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
+    JwtModule.register({
+      global: true,
+      secret: jwtConstants.SECRET,
+      signOptions: { expiresIn: '60s' },
+    }),
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: process.env.DB_HOST,

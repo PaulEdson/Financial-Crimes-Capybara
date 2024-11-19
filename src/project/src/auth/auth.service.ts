@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { UserService } from 'src/user/user.service';
 import { User } from 'src/user/entities/user.entity';
 import { compare } from 'bcrypt';
@@ -25,19 +25,29 @@ export class AuthService {
    }
 
    /*
-   * takes a username and password and properlly sets the session variables
+   * takes a username and password and determines if the credentials are valid
    * */
-   async signIn(username : string, password : string) : Promise<boolean> {
+   async login(username : string, password : string) : Promise<{access_token : string}> {
       try {
          let userToAuth : User = await this.usersService.findUserByUsername(username);
          let authentication : boolean = await compare(userToAuth.password,password);
-         return authentication;
-      }
-      catch (e) {
-         //TODO: ERROR HANDLING
+         
+         if (!authentication)
+            throw new UnauthorizedException();
+
+         const payload = {sub: userToAuth.userId, username: userToAuth.username };
+
+         return {
+            access_token: await this.jwtService.signAsync(payload)
+         }
 
       }
+      catch (e) {
+         //default to locked doors not open ones
+         throw new UnauthorizedException();
+      }
    }
+
 
 }
 
