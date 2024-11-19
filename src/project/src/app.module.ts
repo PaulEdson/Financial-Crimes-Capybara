@@ -35,6 +35,7 @@ import { AuthorizationService } from './authorization/authorization.service';
       username: process.env.DB_USER,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
+      ssl: true,
       synchronize: true, //if this is set to true, any changes made in the app will affect your schema
       entities: [User, Form]
     }),
