@@ -19,7 +19,9 @@ export class FormService {
   }
 
   async findAll(): Promise<Form[]> {
-    return await this.repo.find();
+    return await this.repo.find({relations:{
+      users: true
+    }});
   }
 
   async findOne(id: number) {
@@ -28,7 +30,7 @@ export class FormService {
 
   async update(id: number, updateFormDto: Form) {
     if (id != updateFormDto.FormId){
-      throw new HttpException(`route id ${id} and body id ${updateFormDto.FormId} do not match`, HttpStatus.BAD_REQUEST)
+      throw new HttpException(`route id ${id} and body id ${updateFormDto.Header} do not match`, HttpStatus.BAD_REQUEST)
     }
     await this.repo.exists({where:{FormId: updateFormDto.FormId}}).then(exists => {
       if (!exists){

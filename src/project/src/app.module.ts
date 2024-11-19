@@ -23,6 +23,7 @@ import { AuthgroupController } from './authgroup/authgroup.controller';
 import { UserService } from './user/user.service';
 import { AuthgroupService } from './authgroup/authgroup.service';
 import { AuthorizationService } from './authorization/authorization.service';
+import { AuthorizationController } from './authorization/authorization.controller';
 
 
 @Module({
@@ -38,8 +39,8 @@ import { AuthorizationService } from './authorization/authorization.service';
       synchronize: true, //if this is set to true, any changes made in the app will affect your schema
       entities: [User, Form]
     }),
-    UserModule, AuthgroupModule, AuthorizationModule, FormModule],
-  controllers: [AppController, FormController],
-  providers: [AppService, FormService]
+    UserModule, AuthgroupModule, AuthorizationModule, FormModule, ],
+  controllers: [AppController, FormController, UserController],
+  providers: [AppService, FormService, UserService]
 })
 export class AppModule {}

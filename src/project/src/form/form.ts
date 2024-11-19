@@ -20,7 +20,8 @@ export class Form {
     @Column()
     CreationDate: string;
 
-    //Need to implement this later--
-    //@ManyToMany()
-    //Users: User[]
+    //Many to many connection to user table
+    @ManyToMany(()=>User, user => user.forms)
+    //creating users connection variable
+    users: User[];
 }

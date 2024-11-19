@@ -1,5 +1,6 @@
 import { Authgroup } from "src/authgroup/authgroup";
-import { Column, Entity, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn, Unique } from "typeorm";
+import {Form} from  "src/form/form"
+import { Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn, Unique } from "typeorm";
 
 @Entity()
 export class User {
@@ -12,10 +13,15 @@ export class User {
     @Column()
     password: string;
 
-    // @OneToMany()
-    // formAccess: FormAccess[];
 
     // @ManyToOne()
     // authGroup: AuthGroup;
 
+    //Many to many connection to form table
+    @ManyToMany(()=>Form, form => form.users)
+    //creating join table (only one side of the connection needs this)
+    @JoinTable()
+    //forms variable to store connections
+    forms : Form[];
+    
 }
