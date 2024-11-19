@@ -24,10 +24,10 @@ export class UserService {
 
   async findAllUsers(): Promise<User[]> {
     return await this.repo.find({
-      // relations: {
-      //   formAccess: true,
-      //   authGroup: true
-      // }
+      relations: {
+        forms: true
+        // authGroup: true
+      }
     }).catch(() => {
       throw new HttpException(`No Users Found!`, HttpStatus.NOT_FOUND)
     });
@@ -42,6 +42,10 @@ export class UserService {
         return await this.repo.findOneOrFail({
            where: {
               username: uname
+           },
+           relations: {
+              forms: true
+              // authGroup: true
            }
         });
      }
@@ -50,24 +54,18 @@ export class UserService {
      }
   }
 
-
-
   async findUserById(requestedId: number) {
     return await this.repo.findOneOrFail({
       where: {
         userId: requestedId
       },
-      // relations: {
-      //   formAccess: true,
-      //   authGroup: true
-      // }
+      relations: {
+        forms: true,
+        // authGroup: true
+      }
     }).catch(() => {
       throw new HttpException(`User with ID ${requestedId} not found!`, HttpStatus.NOT_FOUND)
     });
-  }
-
-  updateUser(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
   }
 
   removeUser(id: number) {
