@@ -2,7 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { DeleteResult, Repository } from 'typeorm';
 import { User } from './entities/user.entity';
 import { AuthService } from 'src/auth/auth.service';
 
@@ -68,11 +68,6 @@ export class UserService {
     });
   }
 
-  removeUser(id: number) {
-    return `This action removes a #${id} user`;
-  }
-
-
    /**
    * specific security centered function to properlly update a user password
    * will only update the password if the user exists, otherwise will throw an error
@@ -91,4 +86,8 @@ export class UserService {
          //TODO: a LOT of error handling :p
       }
    }
+
+   async deleteUser(id: number): Promise <DeleteResult> {
+    return await this.repo.delete(id);
+  }
 }
