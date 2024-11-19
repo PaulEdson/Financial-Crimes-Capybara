@@ -17,13 +17,14 @@ import { User } from './user/entities/user.entity';
 import { AuthorizationModule } from './authorization/authorization.module';
 
 import { ConfigModule } from '@nestjs/config';
-import { Authgroup } from './authgroup/authgroup';
+import { AuthGroup } from './authgroup/authgroup';
 import { UserController } from './user/user.controller';
 import { AuthgroupController } from './authgroup/authgroup.controller';
 import { UserService } from './user/user.service';
 import { AuthgroupService } from './authgroup/authgroup.service';
 import { AuthorizationService } from './authorization/authorization.service';
 import { AuthorizationController } from './authorization/authorization.controller';
+import { Authorization } from './authorization/entities/authorization.entity';
 
 
 @Module({
@@ -37,10 +38,10 @@ import { AuthorizationController } from './authorization/authorization.controlle
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
       synchronize: true, //if this is set to true, any changes made in the app will affect your schema
-      entities: [User, Form]
+      entities: [User, Form, Authorization, AuthGroup]
     }),
-    UserModule, AuthgroupModule, AuthorizationModule, FormModule, ],
-  controllers: [AppController, FormController, UserController],
-  providers: [AppService, FormService, UserService]
+    UserModule, AuthorizationModule, FormModule, AuthgroupModule ],
+  controllers: [AppController, FormController, UserController, AuthgroupController],
+  providers: [AppService, FormService, UserService, AuthgroupService]
 })
 export class AppModule {}

@@ -1,4 +1,5 @@
-import { Column, Entity,PrimaryGeneratedColumn } from "typeorm";
+import { AuthGroup } from "src/authgroup/authgroup";
+import { Column, Entity,ManyToMany,PrimaryGeneratedColumn } from "typeorm";
 
 /*
  * this class represents an authorazation inside of the primary application
@@ -16,4 +17,9 @@ export class Authorization {
 
    @Column()
    description : string;
+
+   @ManyToMany(()=>AuthGroup, authgroup => authgroup.authorizations)
+   authgroups : AuthGroup[]
+
+   
 }
