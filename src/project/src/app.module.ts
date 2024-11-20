@@ -17,12 +17,14 @@ import { User } from './user/entities/user.entity';
 import { AuthorizationModule } from './authorization/authorization.module';
 
 import { ConfigModule } from '@nestjs/config';
-import { Authgroup } from './authgroup/authgroup';
+import { AuthGroup } from './authgroup/authgroup';
 import { UserController } from './user/user.controller';
 import { AuthgroupController } from './authgroup/authgroup.controller';
 import { UserService } from './user/user.service';
 import { AuthgroupService } from './authgroup/authgroup.service';
 import { AuthorizationService } from './authorization/authorization.service';
+import { AuthorizationController } from './authorization/authorization.controller';
+import { Authorization } from './authorization/entities/authorization.entity';
 
 
 @Module({
@@ -37,10 +39,17 @@ import { AuthorizationService } from './authorization/authorization.service';
       database: process.env.DB_NAME,
       ssl: true,
       synchronize: true, //if this is set to true, any changes made in the app will affect your schema
-      entities: [User, Form]
+      entities: [User, Form, Authorization, AuthGroup],
+      /*ssl:true,
+      extra:{    
+        trustServerCertificate: true,
+        Encrypt: true,
+        IntegratedSecurity: false,
+
+      }*/
     }),
-    UserModule, AuthgroupModule, AuthorizationModule, FormModule],
-  controllers: [AppController, FormController],
-  providers: [AppService, FormService]
+    UserModule, AuthorizationModule, FormModule, AuthgroupModule ],
+  controllers: [AppController, FormController, UserController, AuthgroupController, AuthorizationController],
+  providers: [AppService, FormService, UserService, AuthgroupService, AuthorizationService]
 })
 export class AppModule {}
