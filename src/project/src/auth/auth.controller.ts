@@ -1,5 +1,6 @@
-import { Controller, HttpCode, HttpStatus, Post, Body } from '@nestjs/common';
+import { Controller, HttpCode, HttpStatus, Post, Body, UseGuards, Get, Request } from '@nestjs/common';
 import {AuthService} from './auth.service';
+import {AuthGuard} from './auth.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -12,4 +13,9 @@ export class AuthController {
                                                   signInDto.plainTextPassword);
    }
 
+   @UseGuards(AuthGuard)
+   @Get('secret')
+   async secret(@Request() req) {
+      return req.user;
+   }
 }
