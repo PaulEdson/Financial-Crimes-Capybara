@@ -1,0 +1,4 @@
+{
+    "eslint.lintTask.enable": false,
+    "eslint.enable": false
+}
