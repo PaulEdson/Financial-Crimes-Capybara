@@ -28,6 +28,8 @@ import { Authorization } from './authorization/entities/authorization.entity';
 import {JwtModule} from '@nestjs/jwt';
 import {jwtConstants} from './auth/config';
 import {AuthModule} from './auth/auth.module';
+import {AuthController} from './auth/auth.controller';
+import {AuthService} from './auth/auth.service';
 
 
 @Module({
@@ -56,9 +58,9 @@ import {AuthModule} from './auth/auth.module';
 
       }*/
     }),
-    UserModule, AuthorizationModule, FormModule, AuthgroupModule,AuthModule 
+    UserModule, AuthorizationModule, FormModule, AuthgroupModule,AuthModule
   ], //end import
-  controllers: [AppController, FormController, UserController, AuthgroupController, AuthorizationController],
-  providers: [AppService, FormService, UserService, AuthgroupService, AuthorizationService]
+  controllers: [AppController, FormController, UserController, AuthgroupController, AuthorizationController,AuthController],
+  providers: [AppService, FormService, UserService, AuthgroupService, AuthorizationService,AuthService]
 })
 export class AppModule {}
