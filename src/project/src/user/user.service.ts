@@ -2,7 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { DeleteResult, Repository } from 'typeorm';
 import { User } from './entities/user.entity';
 import { AuthService } from 'src/auth/auth.service';
 
@@ -24,10 +24,10 @@ export class UserService {
 
   async findAllUsers(): Promise<User[]> {
     return await this.repo.find({
-      // relations: {
-      //   formAccess: true,
-      //   authGroup: true
-      // }
+      relations: {
+        forms: true
+        // authGroup: true
+      }
     }).catch(() => {
       throw new HttpException(`No Users Found!`, HttpStatus.NOT_FOUND)
     });
@@ -42,6 +42,10 @@ export class UserService {
         return await this.repo.findOneOrFail({
            where: {
               username: uname
+           },
+           relations: {
+              forms: true
+              // authGroup: true
            }
         });
      }
@@ -50,30 +54,19 @@ export class UserService {
      }
   }
 
-
-
   async findUserById(requestedId: number) {
     return await this.repo.findOneOrFail({
       where: {
         userId: requestedId
       },
-      // relations: {
-      //   formAccess: true,
-      //   authGroup: true
-      // }
+      relations: {
+        forms: true,
+        // authGroup: true
+      }
     }).catch(() => {
       throw new HttpException(`User with ID ${requestedId} not found!`, HttpStatus.NOT_FOUND)
     });
   }
-
-  updateUser(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
-  }
-
-  removeUser(id: number) {
-    return `This action removes a #${id} user`;
-  }
-
 
    /**
    * specific security centered function to properlly update a user password
@@ -93,4 +86,8 @@ export class UserService {
          //TODO: a LOT of error handling :p
       }
    }
+
+   async deleteUser(id: number): Promise <DeleteResult> {
+    return await this.repo.delete(id);
+  }
 }

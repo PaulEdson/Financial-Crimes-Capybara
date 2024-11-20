@@ -1,8 +1,9 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode, Put } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
+import { DeleteResult } from 'typeorm';
 
 @Controller('user')
 export class UserController {
@@ -27,16 +28,16 @@ export class UserController {
     return this.userService.findUserById(+requestedId);
   }
 
-  @Patch('/update/:id')
+  @Put('/update/:username')
   @HttpCode(200)
-  updateUser(@Param('id') id: number, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.updateUser(+id, updateUserDto);
+  updateUserPassword(@Param('username') username: string, @Body() UpdateUserDto) {
+    return this.userService.updateUserPassword(username, UpdateUserDto);
   }
 
   @Delete('/delete/:id')
   @HttpCode(204)
-  removeUser(@Param('id') id: number) {
-    return this.userService.removeUser(+id);
+  removeUser(@Param('id') id: number): Promise<DeleteResult> {
+    return this.userService.deleteUser(+id);
   }
 
 }
