@@ -1,4 +1,4 @@
-import { AuthGroup } from "src/authgroup/authgroup";
+import { Authgroup } from "src/authgroup/authgroup";
 import {Form} from  "src/form/form"
 import { Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn, Unique } from "typeorm";
 
@@ -14,8 +14,8 @@ export class User {
     password: string;
 
 
-    @ManyToOne(()=>AuthGroup, (authgroup => authgroup.users))
-    authgroup: AuthGroup
+    @ManyToOne(()=>Authgroup, (authgroup => authgroup.users))
+    authgroup: Authgroup
     // authGroup: AuthGroup;
 
     //Many to many connection to form table

@@ -17,7 +17,7 @@ import { User } from './user/entities/user.entity';
 import { AuthorizationModule } from './authorization/authorization.module';
 
 import { ConfigModule } from '@nestjs/config';
-import { AuthGroup } from './authgroup/authgroup';
+import { Authgroup } from './authgroup/authgroup';
 import { UserController } from './user/user.controller';
 import { AuthgroupController } from './authgroup/authgroup.controller';
 import { UserService } from './user/user.service';
@@ -47,16 +47,9 @@ import {AuthService} from './auth/auth.service';
       username: process.env.DB_USER,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
-      ssl: true,
+      ssl: Boolean(Number(process.env.SSL_BOOL)),
       synchronize: true, //if this is set to true, any changes made in the app will affect your schema
-      entities: [User, Form, Authorization, AuthGroup],
-      /*ssl:true,
-      extra:{    
-        trustServerCertificate: true,
-        Encrypt: true,
-        IntegratedSecurity: false,
-
-      }*/
+      entities: [User, Form, Authorization, Authgroup],
     }),
     UserModule, AuthorizationModule, FormModule, AuthgroupModule,AuthModule
   ], //end import

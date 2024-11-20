@@ -3,10 +3,10 @@ import { User } from "src/user/entities/user.entity";
 import { Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
-export class AuthGroup {
+export class Authgroup {
     //Primary key
     @PrimaryGeneratedColumn()
-    FormId: number;
+    AuthgroupId: number;
 
     @Column()
     Header: string;
@@ -16,9 +16,6 @@ export class AuthGroup {
 
     @Column()
     Category: string;
-
-    @Column()
-    CreationDate: string;
 
     //One to many connection to authgroup table
     @OneToMany(()=>User, user => user.authgroup)
