@@ -38,10 +38,17 @@ import { Authorization } from './authorization/entities/authorization.entity';
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
       synchronize: true, //if this is set to true, any changes made in the app will affect your schema
-      entities: [User, Form, Authorization, AuthGroup]
+      entities: [User, Form, Authorization, AuthGroup],
+      /*ssl:true,
+      extra:{    
+        trustServerCertificate: true,
+        Encrypt: true,
+        IntegratedSecurity: false,
+
+      }*/
     }),
     UserModule, AuthorizationModule, FormModule, AuthgroupModule ],
-  controllers: [AppController, FormController, UserController, AuthgroupController],
-  providers: [AppService, FormService, UserService, AuthgroupService]
+  controllers: [AppController, FormController, UserController, AuthgroupController, AuthorizationController],
+  providers: [AppService, FormService, UserService, AuthgroupService, AuthorizationService]
 })
 export class AppModule {}
