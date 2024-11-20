@@ -1,21 +1,27 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { forwardRef, HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, Repository } from 'typeorm';
 import { User } from './entities/user.entity';
 import { AuthService } from 'src/auth/auth.service';
+import {JwtService} from '@nestjs/jwt';
 
 @Injectable()
 export class UserService {
   // need to add FormAccess repo and AuthGroup repo later
-  constructor(@InjectRepository(User) private repo: Repository<User>) {}
+  constructor(
+              @InjectRepository(User) 
+              private repo: Repository<User>, 
+              @Inject(forwardRef(() => AuthService)) //solve circular dependency issues
+              private authService : AuthService) {
+  }
 
   async createUser(createUserDto: CreateUserDto) {
      let toCreate : User = new User();
      try {
          toCreate.username = createUserDto.username;
-         toCreate.password = await AuthService.hashPassword(createUserDto.plainTextPassword);
+         toCreate.password = await this.authService.hashPassword(createUserDto.plainTextPassword);
          await this.repo.save([toCreate]); //will crash if username is not unique
      } catch (e) {
          //TODO: catch the error bro
@@ -79,7 +85,7 @@ export class UserService {
    async updateUserPassword(username : string,password : string) {
       try {
          let user : User = await this.findUserByUsername(username)
-         user.password = await AuthService.hashPassword(password);
+         user.password = await this.authService.hashPassword(password);
          await this.repo.save([user]);
       }
       catch (e) {

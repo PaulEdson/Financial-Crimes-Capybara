@@ -1,18 +1,23 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { forwardRef, Injectable, UnauthorizedException, Inject } from '@nestjs/common';
 import { UserService } from 'src/user/user.service';
 import { User } from 'src/user/entities/user.entity';
 import { compare } from 'bcrypt';
 import { genSalt,hash } from 'bcrypt';
 import { PEPPER } from './config';
+import {JwtService} from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
-   constructor(private usersService : UserService ) {}
+   constructor(
+      @Inject(forwardRef(() => UserService))
+      private userService : UserService,
+      private jwtService : JwtService 
+   ) {}
 
    /*
     * takes a password and returns the hashed version of that password for safe storage
    * */
-   static async hashPassword(plainTextPassword : String) : Promise<string> {
+   async hashPassword(plainTextPassword : String) : Promise<string> {
       //crypto-fy that password!
       try {
          let salt : string = await genSalt();
@@ -29,7 +34,7 @@ export class AuthService {
    * */
    async login(username : string, password : string) : Promise<{access_token : string}> {
       try {
-         let userToAuth : User = await this.usersService.findUserByUsername(username);
+         let userToAuth : User = await this.userService.findUserByUsername(username);
          let authentication : boolean = await compare(userToAuth.password,password);
          
          if (!authentication)
