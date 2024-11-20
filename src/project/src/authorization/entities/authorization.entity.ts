@@ -1,4 +1,4 @@
-import { AuthGroup } from "src/authgroup/authgroup";
+import { Authgroup } from "src/authgroup/authgroup";
 import { Column, Entity,ManyToMany,PrimaryGeneratedColumn } from "typeorm";
 
 /*
@@ -18,8 +18,8 @@ export class Authorization {
    @Column()
    description : string;
 
-   @ManyToMany(()=>AuthGroup, authgroup => authgroup.authorizations)
-   authgroups : AuthGroup[]
+   @ManyToMany(()=>Authgroup, authgroup => authgroup.authorizations)
+   authgroups : Authgroup[]
 
    
 }

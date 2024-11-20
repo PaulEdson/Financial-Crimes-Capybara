@@ -3,10 +3,10 @@ import { AuthgroupService } from './authgroup.service';
 import { AuthgroupController } from './authgroup.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Form } from 'src/form/form';
-import { AuthGroup } from './authgroup';
+import { Authgroup } from './authgroup';
 
 @Module({
-  imports:[TypeOrmModule.forFeature([AuthGroup])],
+  imports:[TypeOrmModule.forFeature([Authgroup])],
   exports:[TypeOrmModule],
   controllers: [AuthgroupController],
   providers: [AuthgroupService],

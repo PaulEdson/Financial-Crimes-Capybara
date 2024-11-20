@@ -1,13 +1,12 @@
-<<<<<<< Updated upstream
 import { Authorization } from "src/authorization/entities/authorization.entity";
 import { User } from "src/user/entities/user.entity";
 import { Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
-export class AuthGroup {
+export class Authgroup {
     //Primary key
     @PrimaryGeneratedColumn()
-    FormId: number;
+    AuthgroupId: number;
 
     @Column()
     Header: string;
@@ -17,9 +16,6 @@ export class AuthGroup {
 
     @Column()
     Category: string;
-
-    @Column()
-    CreationDate: string;
 
     //One to many connection to authgroup table
     @OneToMany(()=>User, user => user.authgroup)
@@ -34,22 +30,3 @@ export class AuthGroup {
     authorizations: Authorization[];
 }
 
-=======
-import { Column, Entity, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
-
-//table entity of authorization groups and the UserIDs in each
-@Entity()
-export class Authgroup {
-
-    @PrimaryGeneratedColumn()
-    AuthgroupId: number;
-
-    @Column()
-    Description: string;
-
-    //One AuthGroup has many UserIDs
-    @OneToMany(() => Users, user => user.Authgroup)
-    UserIds: Users[];
-
-}
->>>>>>> Stashed changes
