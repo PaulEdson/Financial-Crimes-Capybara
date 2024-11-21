@@ -1,0 +1,6 @@
+FROM node:20-alpine
+WORKDIR /project .
+COPY project .
+RUN yarn install --production
+CMD ["node", "./src/main.ts"]
+EXPOSE 3000

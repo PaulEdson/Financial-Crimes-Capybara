@@ -28,6 +28,7 @@ import { Authorization } from './authorization/entities/authorization.entity';
 import {JwtModule} from '@nestjs/jwt';
 import {jwtConstants} from './auth/config';
 import {AuthModule} from './auth/auth.module';
+//import {HttpClientModule} from '@angular/common/http';
 
 
 @Module({
