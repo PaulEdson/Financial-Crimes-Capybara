@@ -1,4 +1,4 @@
-import { Routes } from '@angular/router';
-export const ROUTE_PREFIX = 'api';
-export const ROUTE_TEST = `api/test`;
-export const routes: Routes = [];
+ import { Routes } from '@angular/router';
+import { NavigatorComponent } from './navigator/navigator.component';
+import { NgModule } from '@angular/core';
+export const routes: Routes = [{path: "navigator", component: NavigatorComponent}];

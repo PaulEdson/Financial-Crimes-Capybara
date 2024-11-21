@@ -7,6 +7,6 @@ export class ApiService {
     constructor(private http: HttpClient) { }
     getMessage() {
         return this.http.get(
-            'http://localhost:3000/form/2');
+            'http://localhost:3000/form/getall');
     }
 }
