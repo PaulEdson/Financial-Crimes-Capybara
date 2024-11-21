@@ -8,6 +8,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-navigator',
@@ -15,6 +16,7 @@ import { map, shareReplay } from 'rxjs/operators';
   styleUrl: './navigator.component.css',
   standalone: true,
   imports: [
+    RouterLink,
     MatToolbarModule,
     MatButtonModule,
     MatSidenavModule,

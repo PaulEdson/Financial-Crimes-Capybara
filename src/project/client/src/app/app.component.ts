@@ -6,6 +6,10 @@ import {MatButtonModule} from '@angular/material/button'
 import {MatIconModule} from '@angular/material/icon'
 import {MatSidenavModule} from '@angular/material/sidenav';
 import { NavigatorComponent } from './navigator/navigator.component'; 
+import { RouterOutlet } from '@angular/router';
+import { LoginComponent } from './login/login.component';
+import { ReportDisplayComponent } from './report-display/report-display.component';
+import { ReportFormComponent } from './report-form/report-form.component';
 
 
 
@@ -15,7 +19,8 @@ import { NavigatorComponent } from './navigator/navigator.component';
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.css'],
-    imports: [ NgFor, NgIf, MatSlideToggleModule, MatSidenavModule, MatIconModule, MatButtonModule, NavigatorComponent]
+    imports: [ 
+      NavigatorComponent, RouterOutlet]
 })
 export class AppComponent implements OnInit {
     title = 'frontEnd';
