@@ -5,7 +5,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, Repository } from 'typeorm';
 import { User } from './entities/user.entity';
 import { AuthService } from 'src/auth/auth.service';
+import { compare } from 'bcrypt';
 import {JwtService} from '@nestjs/jwt';
+import {PEPPER} from 'src/auth/config';
 
 @Injectable()
 export class UserService {
@@ -19,13 +21,18 @@ export class UserService {
 
   async createUser(createUserDto: CreateUserDto) {
      let toCreate : User = new User();
-     try {
          toCreate.username = createUserDto.username;
+
+         //base64 encode to ensure that postgress can store the data properlly
+         //without changing anything about the hash
          toCreate.password = await this.authService.hashPassword(createUserDto.plainTextPassword);
+
+         console.log(`user hashed password: ${toCreate.password}`);
+
+         let result : boolean = await compare(createUserDto.plainTextPassword + PEPPER,toCreate.password);
+         console.log(`password test ${result} `);
+
          await this.repo.save([toCreate]); //will crash if username is not unique
-     } catch (e) {
-         //TODO: catch the error bro
-     }
   }
 
   async findAllUsers(): Promise<User[]> {

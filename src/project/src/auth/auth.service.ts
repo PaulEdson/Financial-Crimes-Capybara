@@ -17,40 +17,31 @@ export class AuthService {
    /*
     * takes a password and returns the hashed version of that password for safe storage
    * */
-   async hashPassword(plainTextPassword : String) : Promise<string> {
+   async hashPassword(plainTextPassword : string) : Promise<string> {
       //crypto-fy that password!
-      try {
-         let salt : string = await genSalt();
-         return await hash(plainTextPassword + PEPPER , salt);
-      }
-      catch (e) {
-         //TODO: handle errors
-         return e;
-      }
+      return await hash(plainTextPassword + PEPPER , 10);
    }
 
    /*
    * takes a username and password and determines if the credentials are valid
+   * then returns an access token if valid
    * */
-   async login(username : string, password : string) : Promise<{access_token : string}> {
-      try {
-         let userToAuth : User = await this.userService.findUserByUsername(username);
-         let authentication : boolean = await compare(userToAuth.password,password);
-         
-         if (!authentication)
-            throw new UnauthorizedException();
+   async validateLogin(username : string, plainTextPassword : string) : Promise<{access_token : string}> {
+      let userToAuth : User = await this.userService.findUserByUsername(username);
 
-         const payload = {sub: userToAuth.userId, username: userToAuth.username };
+      let peppered_password : string = plainTextPassword + PEPPER;
+      let authentication : boolean = await compare(peppered_password,userToAuth.password);
 
-         return {
-            access_token: await this.jwtService.signAsync(payload)
-         }
-
-      }
-      catch (e) {
-         //default to locked doors not open ones
+      if (!authentication)
          throw new UnauthorizedException();
+
+      const payload = {sub: userToAuth.userId, username: userToAuth.username };
+
+      return {
+         access_token: await this.jwtService.signAsync(payload)
       }
+
+
    }
 
 

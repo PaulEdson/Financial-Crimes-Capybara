@@ -29,6 +29,8 @@ import {JwtModule} from '@nestjs/jwt';
 import {jwtConstants} from './auth/config';
 import {AuthModule} from './auth/auth.module';
 //import {HttpClientModule} from '@angular/common/http';
+import {AuthController} from './auth/auth.controller';
+import {AuthService} from './auth/auth.service';
 
 
 @Module({
@@ -50,9 +52,9 @@ import {AuthModule} from './auth/auth.module';
       synchronize: true, //if this is set to true, any changes made in the app will affect your schema
       entities: [User, Form, Authorization, Authgroup],
     }),
-    UserModule, AuthorizationModule, FormModule, AuthgroupModule,AuthModule 
+    UserModule, AuthorizationModule, FormModule, AuthgroupModule,AuthModule
   ], //end import
-  controllers: [AppController, FormController, UserController, AuthgroupController, AuthorizationController],
-  providers: [AppService, FormService, UserService, AuthgroupService, AuthorizationService]
+  controllers: [AppController, FormController, UserController, AuthgroupController, AuthorizationController,AuthController],
+  providers: [AppService, FormService, UserService, AuthgroupService, AuthorizationService,AuthService]
 })
 export class AppModule {}
