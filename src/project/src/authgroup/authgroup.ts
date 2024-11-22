@@ -18,7 +18,7 @@ export class Authgroup {
     Category: string;
 
     //One to many connection to authgroup table
-    @OneToMany(()=>User, user => user.authgroup)
+    @OneToMany(()=>User, user => user.authgroups)
     //creating users connection variable
     users: User[]
 

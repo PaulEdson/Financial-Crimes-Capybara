@@ -38,8 +38,8 @@ export class UserService {
   async findAllUsers(): Promise<User[]> {
     return await this.repo.find({
       relations: {
-        forms: true
-        // authGroup: true
+        forms: true,
+        authgroups: true
       }
     }).catch(() => {
       throw new HttpException(`No Users Found!`, HttpStatus.NOT_FOUND)
@@ -57,8 +57,8 @@ export class UserService {
               username: uname
            },
            relations: {
-              forms: true
-              // authGroup: true
+              forms: true,
+              authgroups: true
            }
         });
      }
@@ -74,7 +74,7 @@ export class UserService {
       },
       relations: {
         forms: true,
-        // authGroup: true
+        authgroups: true
       }
     }).catch(() => {
       throw new HttpException(`User with ID ${requestedId} not found!`, HttpStatus.NOT_FOUND)

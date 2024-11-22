@@ -1,3 +1,4 @@
+import { IsEmail } from "class-validator";
 import { Authgroup } from "src/authgroup/authgroup";
 import {Form} from  "src/form/form"
 import { Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn, Unique } from "typeorm";
@@ -13,10 +14,12 @@ export class User {
     @Column()
     password: string;
 
+    @Column()
+    @IsEmail()
+    email: string;
 
     @ManyToOne(()=>Authgroup, (authgroup => authgroup.users))
-    authgroup: Authgroup
-    // authGroup: AuthGroup;
+    authgroups: Authgroup;
 
     //Many to many connection to form table
     @ManyToMany(()=>Form, form => form.users)
